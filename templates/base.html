@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>SDA2</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/ekmas/cs16.css@main/css/cs16.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}" async defer></script>
+</head>
+
+<body>
+    <div id="loader-view" class="view">
+        <h1>Loading</h1>
+        <div class="loading-container cs-progress-bar">
+            <div class="bars"></div>
+        </div>
+    </div>
+
+    <div id="fatal-error-view" class="view">
+        <span id="fatal-error-msg">
+            You must install the
+            <a href="https://github.com/offish/SteamDesktopAuthenticator2/tree/main/userscript">user script</a>
+            before you can use this page.
+        </span>
+    </div>
+
+    <div id="main-app-view" class="view">
+        <h1 style="color: var(--accent);">
+            <a href="/" style="color: inherit; text-decoration: none;">
+                SteamDesktopAuthenticator2
+            </a>
+        </h1>
+        <hr class="cs-hr" style="max-width: 750px; margin: auto;" />
+
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>

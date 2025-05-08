@@ -171,4 +171,6 @@ cython_debug/
 .pypirc
 
 # Other
+maFiles/
+manifest.json
 *.maFile
