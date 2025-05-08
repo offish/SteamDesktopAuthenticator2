@@ -1,0 +1,167 @@
+body {
+  text-align: center;
+  padding-top: 10px;
+}
+
+#loader-view {
+  text-align: center;
+}
+
+#main-app-view,
+#fatal-error-view,
+#no-confs-msg,
+#configure-server-view {
+  display: none;
+}
+
+#fatal-error-view {
+  font-size: 24px;
+  font-weight: 300;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+button:hover,
+button:active {
+  background-color: var(--secondary-bg);
+}
+
+p {
+  margin: 0;
+}
+
+#account-info {
+  margin-bottom: 50px;
+}
+
+#refresh-btn {
+  margin-top: 5px;
+}
+
+#no-confs-msg {
+  font-weight: 300;
+  font-size: 24px;
+}
+
+#accept-all-btn,
+#no-confs-msg,
+#confs-container {
+  display: none;
+}
+
+#main-app-view.has-confirmations #accept-all-btn,
+#main-app-view.has-confirmations #confs-container {
+  display: block;
+}
+
+#main-app-view:not(.has-confirmations) #no-confs-msg {
+  display: block;
+}
+
+.confirmation {
+  border-radius: 5px;
+  background-color: #c4c4c411;
+  margin: 0 auto 5px;
+  height: 74px;
+  max-width: 750px;
+  position: relative;
+}
+
+.confirmation .loader-cube {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  display: none;
+}
+
+.confirmation.loading .loader-cube {
+  display: block;
+}
+
+.confirmation.loading .action {
+  display: none;
+}
+
+.confirmation .icon {
+  image-rendering: pixelated;
+  background-color: var(--secondary-bg);
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 64px;
+  height: 64px;
+}
+
+.confirmation .type-desc {
+  position: absolute;
+  bottom: 5px;
+  right: 143px;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 300;
+  opacity: 0.3;
+}
+
+.confirmation .headline {
+  position: absolute;
+  top: 5px;
+  left: 74px;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.confirmation .summary {
+  position: absolute;
+  top: 31px;
+  left: 74px;
+  font-weight: 300;
+  font-size: 16px;
+  text-align: left;
+}
+
+.confirmation .action {
+  width: 64px;
+  height: 64px;
+  padding: 0;
+}
+
+.confirmation .accept {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 18px;
+  color: var(--accent);
+}
+
+.confirmation .cancel {
+  position: absolute;
+  top: 5px;
+  right: 74px;
+  font-size: 18px;
+  color: var(--accent);
+}
+
+.footer-btns {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.loading-container {
+  margin: 0 auto;
+}
+
+.bars {
+  width: 0;
+  animation: loadBar 3s ease forwards;
+}
+
+@keyframes loadBar {
+  to {
+    width: 100%;
+  }
+}
