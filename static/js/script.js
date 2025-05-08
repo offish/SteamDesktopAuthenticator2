@@ -6,6 +6,8 @@ let g_IsAutoCanceling = false;
 let g_UsedTimestamps = [];
 let g_CheckInitAttempts = 0;
 
+const baseUrl = "http://127.0.0.1:5000/sda2/";
+
 checkInit();
 async function checkInit() {
   loading("Loading");
@@ -24,7 +26,7 @@ async function checkInit() {
     return;
   }
 
-  await UserScriptInjected.setServerUrl("http://127.0.0.1:5000/sda2/");
+  await UserScriptInjected.setServerUrl(baseUrl);
 
   // Userscript is present
   let accountDetails = await UserScriptInjected.getLoggedInAccountDetails();
@@ -253,13 +255,9 @@ function fatalError(message) {
   $fatalView.show();
 }
 
-async function copyCode() {
+async function copyAccountCode(accountName) {
   try {
-    const accountName = g_SteamAccountDetails.accountName;
-
-    const response = await fetch(
-      `http://127.0.0.1:5000/sda2/code/${accountName}`
-    );
+    const response = await fetch(baseUrl + `code/${accountName}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch the code");
@@ -271,4 +269,9 @@ async function copyCode() {
     console.error("Error fetching or copying the code:", error);
     alert("Failed to fetch or copy the code.");
   }
+}
+
+async function copyCode() {
+  const accountName = g_SteamAccountDetails.accountName;
+  await copyAccountCode(accountName);
 }

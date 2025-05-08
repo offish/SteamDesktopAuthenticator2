@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+{% for account in accounts %}
+<input disabled value="{{ account }}" class="cs-input" style="margin-top: 10px;" />
+<button class="cs-btn" onclick="copyAccountCode('{{ account }}')">Copy 2FA code</button><br>
+{% endfor %}
+{% endblock %}

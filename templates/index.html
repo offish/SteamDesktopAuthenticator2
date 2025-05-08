@@ -1,71 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>SDA2</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/ekmas/cs16.css@main/css/cs16.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-    <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
-
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}" async defer></script>
-</head>
-
-<body>
-    <div id="loader-view" class="view">
-        <h1>Loading</h1>
-        <div class="loading-container cs-progress-bar">
-            <div class="bars"></div>
-        </div>
-    </div>
-
-    <div id="fatal-error-view" class="view">
-        <span id="fatal-error-msg">
-            You must install the
-            <a href="https://github.com/offish/SteamDesktopAuthenticator2/tree/main/userscript">user script</a>
-            before you can use this page.
-        </span>
-    </div>
-
-    <div id="main-app-view" class="view">
-        <h1 style="color: var(--accent);">SteamDesktopAuthenticator2</h1>
-        <hr class="cs-hr" style="max-width: 750px; margin: auto;" />
-        <div id="account-info" style="margin-top: 10px;">
-            <p>Signed in as: <input id="account-name" type="text" disabled value="disabled" class="cs-input" /></p><br>
-            <button class="cs-btn" onclick="copyCode()">Copy 2FA code</button><br>
-            <button class="cs-btn" id="refresh-btn">Refresh Confirmations</button>
-            <section style="margin-top: 20px;">
-                <button class="cs-btn" style="font-size: 20px;" id="cancel-all-btn">Cancel All</button>
-                <button class="cs-btn" style="font-size: 20px;"
-                    onclick="document.querySelector('.cs-dialog').showModal();">
-                    Accept All
-                </button>
-                <dialog class="cs-dialog">
-                    <form method="dialog">
-                        <div class="heading">
-                            <div class="wrapper">
-                                <div class="icon"></div>
-                                <p class="text">Options</p>
-                            </div>
-                            <button class="cs-btn close"></button>
-                        </div>
-                        <div class="content">
-                            This will accept all your confirmations one by one.<br>
-                            Are you sure you want to do this?
-                        </div>
-                        <menu class="footer-btns">
-                            <button class="cs-btn">Cancel</button>
-                            <button class="cs-btn" id="accept-all-btn">Apply</button>
-                        </menu>
-                    </form>
-                </dialog>
-            </section>
-        </div>
-
-        <div id="no-confs-msg">You don't have anything to confirm right now.</div>
-        <div id="confs-container"></div>
-    </div>
-</body>
-
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div id="account-info" style="margin-top: 10px;">
+    <p>Signed in as: <input id="account-name" type="text" disabled value="disabled" class="cs-input" /></p><br>
+    <button class="cs-btn" onclick="window.location.href='/sda2/codes'">
+        2FA codes for other accounts
+    </button>
+    <button class="cs-btn" onclick="copyCode()">Copy 2FA code</button><br>
+    <button class="cs-btn" id="refresh-btn">Refresh Confirmations</button>
+    <section style="margin-top: 20px;">
+        <button class="cs-btn" style="font-size: 20px;" id="cancel-all-btn">Cancel All</button>
+        <button class="cs-btn" style="font-size: 20px;" onclick="document.querySelector('.cs-dialog').showModal();">
+            Accept All
+        </button>
+        <dialog class="cs-dialog">
+            <form method="dialog">
+                <div class="heading">
+                    <div class="wrapper">
+                        <div class="icon"></div>
+                        <p class="text">Options</p>
+                    </div>
+                    <button class="cs-btn close"></button>
+                </div>
+                <div class="content">
+                    This will accept all your confirmations one by one.<br>
+                    Are you sure you want to do this?
+                </div>
+                <menu class="footer-btns">
+                    <button class="cs-btn">Cancel</button>
+                    <button class="cs-btn" id="accept-all-btn">Apply</button>
+                </menu>
+            </form>
+        </dialog>
+    </section>
+</div>
+<div id="no-confs-msg">You don't have anything to confirm right now.</div>
+<div id="confs-container"></div>
+{% endblock %}

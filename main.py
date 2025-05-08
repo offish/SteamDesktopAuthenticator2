@@ -3,7 +3,7 @@ import time
 from flask import Flask, Response, abort, jsonify, redirect, render_template, request
 
 from sda2.guard import generate_confirmation_key, generate_one_time_code
-from sda2.utils import get_identity_secret, get_shared_secret
+from sda2.utils import get_accounts, get_identity_secret, get_shared_secret
 
 BASE_PATH = "/sda2/"
 app = Flask(__name__)
@@ -19,10 +19,14 @@ def sda2() -> Response:
     return render_template("index.html")
 
 
-@app.route(BASE_PATH + "/code/<username>")
+@app.route(BASE_PATH + "codes")
+def codes() -> Response:
+    return render_template("codes.html", accounts=get_accounts())
+
+
+@app.route(BASE_PATH + "code/<username>")
 def get_code(username: str) -> str:
     print(f"User requesting login code for {username}")
-
     shared_secret = get_shared_secret(username)
 
     if not shared_secret:
@@ -31,10 +35,9 @@ def get_code(username: str) -> str:
     return generate_one_time_code(shared_secret)
 
 
-@app.route(BASE_PATH + "/key/<username>/<tag>")
+@app.route(BASE_PATH + "key/<username>/<tag>")
 def get_confirmation_key(username: str, tag: str) -> Response:
     print(f"User requesting confirmation key for {username}, tag {tag}")
-
     timestamp = int(request.args.get("t", time.time()))
     identity_secret = get_identity_secret(username)
 
