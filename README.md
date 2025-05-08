@@ -9,7 +9,7 @@
 SteamDesktopAuthenticator2 (SDA2) allows you to confirm trade and market transactions directly from your browser. While it is named SDA2 for convenience, it is not affiliated with [Jessecar96](https://github.com/Jessecar96) or the original [SteamDesktopAuthenticator](https://github.com/Jessecar96/SteamDesktopAuthenticator) project. SDA2 was created because the original SDA project is no longer receiving updates and has become slow when there are many pending confirmations.
 
 ## Showcase
-![Image](https://github.com/user-attachments/assets/a15b377e-5b76-4081-b89b-fd46e03ba0f9)
+![Untitled](https://github.com/user-attachments/assets/55b27733-55b3-4639-92d5-70cf564cf0ef)
 
 ## Features
 - Mass Accept Transactions: Quickly accept multiple trade offers and transactions.
