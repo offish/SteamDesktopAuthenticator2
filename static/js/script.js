@@ -1,5 +1,4 @@
 let g_SteamAccountDetails = null;
-
 let g_RequestInFlight = false;
 let g_IsAutoConfirming = false;
 let g_IsAutoCanceling = false;
@@ -8,7 +7,13 @@ let g_CheckInitAttempts = 0;
 
 const baseUrl = "http://127.0.0.1:5000/sda2/";
 
-checkInit();
+if (window.location.pathname === "/decrypt") {
+  $("#loader-view").hide();
+  $("#main-app-view").show();
+} else {
+  checkInit();
+}
+
 async function checkInit() {
   loading("Loading");
 
