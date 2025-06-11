@@ -208,6 +208,74 @@ async function loadConfirmations() {
   }
 }
 
+async function loadConfirmationsAndAccept() {
+  try {
+    let confsList = await UserScriptInjected.getConfirmationList();
+
+    if (!confsList.success) return;
+
+    let confs = confsList.conf || [];
+
+    if (confs.length == 0) return;
+
+    for (const conf of confs) {
+      let {
+        id,
+        nonce,
+        headline,
+        icon,
+        summary,
+        type_name: typeName,
+        accept,
+        cancel,
+      } = conf;
+
+      if (g_RequestInFlight) return;
+
+      try {
+        g_RequestInFlight = true;
+        let overrideTimestamp = null;
+
+        let result = await UserScriptInjected.respondToConfirmation(
+          id,
+          nonce,
+          true,
+          overrideTimestamp
+        );
+
+        if (!result.success) return;
+        g_RequestInFlight = false;
+      } catch (ex) {
+        return;
+      }
+    }
+  } catch (ex) {
+    return;
+  }
+}
+
+function startAutoConfirmLoop() {
+  const interval = 60000;
+
+  const loop = async () => {
+    if (!g_IsAutoConfirmingLoop) return;
+
+    await loadConfirmationsAndAccept();
+
+    setTimeout(loop, interval);
+  };
+
+  loop();
+}
+
+$("#auto-accept").change(function () {
+  g_IsAutoConfirmingLoop = this.checked;
+
+  if (g_IsAutoConfirmingLoop) {
+    startAutoConfirmLoop();
+  }
+});
+
 $("#accept-all-btn").click(() => {
   if (g_RequestInFlight) {
     return;
