@@ -17,11 +17,8 @@ class AccountManager:
     def needs_password(self) -> bool:
         return self._password is None and self.accounts_are_encrypted()
 
-    def has_manifest(self) -> bool:
-        return self.manifest_path.exists()
-
     def accounts_are_encrypted(self) -> bool:
-        if not self.has_manifest():
+        if not self.manifest_path.exists():
             return False
 
         manifest = self.read_manifest()
@@ -90,6 +87,7 @@ class AccountManager:
                 data = json.loads(decrypted)
                 username = data["account_name"]
                 self.set_account(username, data)
+                print(f"Decrypted data for {file_name} and added account")
 
             except UnicodeDecodeError:
                 print(f"Failed to decode data for {file_name}")

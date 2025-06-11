@@ -17,17 +17,19 @@ def index() -> Response:
 
 @app.route(BASE_PATH)
 def home() -> Response:
+    if account_manager.needs_password():
+        return redirect("/decrypt")
+
     return render_template("index.html", check_user_script_installed=True)
 
 
 @app.route("/decrypt", methods=["GET", "POST"])
-def descrypt() -> Response:
+def decrypt() -> Response:
     if request.method == "POST":
         password = request.form.get("password", "").strip()
 
         try:
             account_manager.decrypt_accounts(password)
-            print("Accounts decrypted successfully")
         except ValueError:
             pass
 
