@@ -2,32 +2,56 @@ import time
 
 from flask import Flask, Response, abort, jsonify, redirect, render_template, request
 
+from sda2.account_manager import AccountManager
 from sda2.guard import generate_confirmation_key, generate_one_time_code
-from sda2.utils import get_accounts, get_identity_secret, get_shared_secret
 
 BASE_PATH = "/sda2/"
 app = Flask(__name__)
+account_manager = AccountManager()
 
 
 @app.route("/")
 def index() -> Response:
-    return redirect("/sda2/")
+    return redirect("/decrypt")
 
 
 @app.route(BASE_PATH)
-def sda2() -> Response:
-    return render_template("index.html")
+def home() -> Response:
+    if account_manager.needs_password():
+        return redirect("/decrypt")
+
+    return render_template("index.html", check_user_script_installed=True)
+
+
+@app.route("/decrypt", methods=["GET", "POST"])
+def decrypt() -> Response:
+    if request.method == "POST":
+        password = request.form.get("password", "").strip()
+
+        try:
+            account_manager.decrypt_accounts(password)
+        except ValueError:
+            pass
+
+    if account_manager.needs_password():
+        print("Password is required to access the accounts")
+        return render_template(
+            "index.html", password_required=True, check_user_script_installed=False
+        )
+
+    account_manager.set_remaining_accounts()
+    return redirect(BASE_PATH)
 
 
 @app.route(BASE_PATH + "codes")
 def codes() -> Response:
-    return render_template("codes.html", accounts=get_accounts())
+    return render_template("codes.html", accounts=account_manager.get_accounts())
 
 
 @app.route(BASE_PATH + "code/<username>")
 def get_code(username: str) -> str:
     print(f"User requesting login code for {username}")
-    shared_secret = get_shared_secret(username)
+    shared_secret = account_manager.get_shared_secret(username)
 
     if not shared_secret:
         abort(404, description="No shared_secret was found for that username.")
@@ -39,7 +63,7 @@ def get_code(username: str) -> str:
 def get_confirmation_key(username: str, tag: str) -> Response:
     print(f"User requesting confirmation key for {username}, tag {tag}")
     timestamp = int(request.args.get("t", time.time()))
-    identity_secret = get_identity_secret(username)
+    identity_secret = account_manager.get_identity_secret(username)
 
     if not identity_secret:
         abort(404, description="No identity_secret was found for that username.")

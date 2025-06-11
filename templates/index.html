@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
+{% if password_required %}
+<form method="POST">
+    <label for="password">Enter password to decrypt accounts:</label><br>
+    <input type="password" name="password" class="cs-input" />
+    <button type="submit" class="cs-btn">OK</button><br>
+</form>
+{% else %}
 <div id="account-info" style="margin-top: 10px;">
     <p>Signed in as: <input id="account-name" type="text" disabled value="disabled" class="cs-input" /></p><br>
-    <button class="cs-btn" onclick="window.location.href='/sda2/codes'">
-        2FA codes for other accounts
-    </button>
+    <button class="cs-btn" onclick="window.location.href='/sda2/codes'">2FA codes for other accounts</button>
     <button class="cs-btn" onclick="copyCode()">Copy 2FA code</button><br>
     <button class="cs-btn" id="refresh-btn">Refresh Confirmations</button>
     <section style="margin-top: 20px;">
         <button class="cs-btn" style="font-size: 20px;" id="cancel-all-btn">Cancel All</button>
-        <button class="cs-btn" style="font-size: 20px;" onclick="document.querySelector('.cs-dialog').showModal();">
-            Accept All
-        </button>
+        <button class="cs-btn" style="font-size: 20px;"
+            onclick="document.querySelector('.cs-dialog').showModal();">Accept All</button>
         <dialog class="cs-dialog">
             <form method="dialog">
                 <div class="heading">
@@ -27,7 +31,7 @@
                 </div>
                 <menu class="footer-btns">
                     <button class="cs-btn">Cancel</button>
-                    <button class="cs-btn" id="accept-all-btn">Apply</button>
+                    <button class="cs-btn" id="accept-all-btn">OK</button>
                 </menu>
             </form>
         </dialog>
@@ -35,4 +39,5 @@
 </div>
 <div id="no-confs-msg">You don't have anything to confirm right now.</div>
 <div id="confs-container"></div>
+{% endif %}
 {% endblock %}

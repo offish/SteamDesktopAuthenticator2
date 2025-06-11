@@ -12,14 +12,14 @@ SteamDesktopAuthenticator2 (SDA2) allows you to confirm trade and market transac
 ![Untitled](https://github.com/user-attachments/assets/55b27733-55b3-4639-92d5-70cf564cf0ef)
 
 ## Features
-- Mass Accept Transactions: Quickly accept multiple trade offers and transactions.
-- Uses Current Account: It automatically uses the account you are logged into.
-- Automatic Redirect: Automatically redirects you when a confirmation is needed for sending a Trade Offer.
+- **Mass accept transactions**: Quickly accept multiple trade offers and transactions
+- **Uses current account**: Automatically uses the account you are logged into in the browser
+- **Automatic redirect**: Automatically redirects you when a confirmation is needed for sending a Trade Offer
 
 ## What do I need?
-- Unencrypted maFile(s) for the account(s) you want to use with SDA2
-- Python 3 installed
-- A browser with the Tampermonkey extension
+- maFile(s) for the account(s) you want to use with SDA2 (if encrypted, you also need the `manifest.json` file)
+- Python 3.10 or greater installed
+- A browser with the [Tampermonkey](https://www.tampermonkey.net/) extension
 
 > [!CAUTION]
 > NEVER share your `maFiles`, `password`, `shared_secret` or `identity_secret` with ANYONE. If these are present in logs or similar, remove them before submitting an issue.
@@ -30,12 +30,12 @@ SteamDesktopAuthenticator2 (SDA2) allows you to confirm trade and market transac
 
 ## Setup
 Clone the repository.
-Place your maFile(s) inside the `maFiles` directory. These has to be unencrypted.
+Place your maFile(s) inside the `maFiles` directory.
 
 > [!IMPORTANT]
-> The maFile(s) has to be unencrypted.
+> If your maFile(s) are encrypted, you need to also include your `manifest.json`.
 
-The name of each file must on the format: `accountName.maFile` where accountName is the Steam account name (not alias) e.g. `gaben123.maFile`.
+If the maFile(s) are unencrypted, you only need the maFile(s) in the `maFiles` directory. These can be named whatever, but has to have the `.maFile` filetype.
 
 ```bash
 pip install -r requirements.txt
@@ -46,7 +46,7 @@ Open your browser which has Tampermonkey installed.
 
 ### [Install the Tampermonkey user script](https://github.com/offish/SteamDesktopAuthenticator2/raw/refs/heads/main/userscript/SteamDesktopAuthenticator2.user.js)
 
-Now you can go to http://127.0.0.1:5000/sda2/ to confirm trade and market transactions.
+Now you can go to http://127.0.0.1:5000/ to confirm trade and market transactions.
 You need to allow Tampermonkey to make requests.
 
 > [!NOTE]

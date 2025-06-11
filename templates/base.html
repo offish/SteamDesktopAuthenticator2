@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/ekmas/cs16.css@main/css/cs16.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
     <link rel="icon" href="{{ url_for('static', filename='icon.ico') }}" type="image/x-icon">
-
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}" async defer></script>
@@ -20,6 +19,7 @@
         </div>
     </div>
 
+    {% if check_user_script_installed %}
     <div id="fatal-error-view" class="view">
         <span id="fatal-error-msg">
             You must install the
@@ -27,6 +27,7 @@
             before you can use this page.
         </span>
     </div>
+    {% endif %}
 
     <div id="main-app-view" class="view">
         <h1 style="color: var(--accent);">

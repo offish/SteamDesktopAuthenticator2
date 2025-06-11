@@ -174,3 +174,4 @@ cython_debug/
 maFiles/
 manifest.json
 *.maFile
+*.json
