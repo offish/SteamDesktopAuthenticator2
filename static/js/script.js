@@ -6,6 +6,7 @@ let g_UsedTimestamps = [];
 let g_CheckInitAttempts = 0;
 
 const baseUrl = "http://127.0.0.1:5000/sda2/";
+const autoConfirmTimeout = 30; // seconds
 
 if (window.location.pathname === "/decrypt") {
   $("#loader-view").hide();
@@ -207,6 +208,72 @@ async function loadConfirmations() {
     fatalError("Error: " + (ex.message || ex));
   }
 }
+
+async function loadConfirmationsAndAccept() {
+  try {
+    let confsList = await UserScriptInjected.getConfirmationList();
+
+    if (!confsList.success) return;
+
+    let confs = confsList.conf || [];
+
+    if (confs.length == 0) return;
+
+    for (const conf of confs) {
+      let {
+        id,
+        nonce,
+        headline,
+        icon,
+        summary,
+        type_name: typeName,
+        accept,
+        cancel,
+      } = conf;
+
+      if (g_RequestInFlight) return;
+
+      try {
+        g_RequestInFlight = true;
+        let overrideTimestamp = null;
+
+        let result = await UserScriptInjected.respondToConfirmation(
+          id,
+          nonce,
+          true,
+          overrideTimestamp
+        );
+
+        if (!result.success) return;
+        g_RequestInFlight = false;
+      } catch (ex) {
+        return;
+      }
+    }
+  } catch (ex) {
+    return;
+  }
+}
+
+function startAutoConfirmLoop() {
+  const loop = async () => {
+    if (!g_IsAutoConfirmingLoop) return;
+
+    await loadConfirmationsAndAccept();
+
+    setTimeout(loop, autoConfirmTimeout * 1000);
+  };
+
+  loop();
+}
+
+$("#auto-accept").change(function () {
+  g_IsAutoConfirmingLoop = this.checked;
+
+  if (g_IsAutoConfirmingLoop) {
+    startAutoConfirmLoop();
+  }
+});
 
 $("#accept-all-btn").click(() => {
   if (g_RequestInFlight) {

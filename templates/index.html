@@ -9,6 +9,10 @@
 {% else %}
 <div id="account-info" style="margin-top: 10px;">
     <p>Signed in as: <input id="account-name" type="text" disabled value="disabled" class="cs-input" /></p><br>
+    <div class="cs-checkbox">
+        <input id="auto-accept" type="checkbox" />
+        <label class="cs-checkbox__label" for="auto-accept">Auto-accept</label>
+    </div>
     <button class="cs-btn" onclick="window.location.href='/sda2/codes'">2FA codes for other accounts</button>
     <button class="cs-btn" onclick="copyCode()">Copy 2FA code</button><br>
     <button class="cs-btn" id="refresh-btn">Refresh Confirmations</button>
