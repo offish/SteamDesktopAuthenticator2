@@ -6,6 +6,7 @@ let g_UsedTimestamps = [];
 let g_CheckInitAttempts = 0;
 
 const baseUrl = "http://127.0.0.1:5000/sda2/";
+const autoConfirmTimeout = 30; // seconds
 
 if (window.location.pathname === "/decrypt") {
   $("#loader-view").hide();
@@ -255,14 +256,12 @@ async function loadConfirmationsAndAccept() {
 }
 
 function startAutoConfirmLoop() {
-  const interval = 60000;
-
   const loop = async () => {
     if (!g_IsAutoConfirmingLoop) return;
 
     await loadConfirmationsAndAccept();
 
-    setTimeout(loop, interval);
+    setTimeout(loop, autoConfirmTimeout * 1000);
   };
 
   loop();
