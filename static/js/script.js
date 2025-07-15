@@ -8,7 +8,10 @@ let g_CheckInitAttempts = 0;
 const baseUrl = "http://127.0.0.1:5000/sda2/";
 const autoConfirmTimeout = 30; // seconds
 
-if (window.location.pathname === "/decrypt") {
+if (
+  window.location.pathname === "/decrypt" ||
+  window.location.pathname === "/sda2/codes"
+) {
   $("#loader-view").hide();
   $("#main-app-view").show();
 } else {
@@ -38,7 +41,8 @@ async function checkInit() {
   let accountDetails = await UserScriptInjected.getLoggedInAccountDetails();
   if (!accountDetails) {
     fatalError(
-      "Sign in to steamcommunity.com before attempting to access this page."
+      "Sign in to steamcommunity.com before attempting to access this page.",
+      true
     );
     return;
   }
@@ -319,11 +323,20 @@ function loading(message) {
   $loaderView.show();
 }
 
-function fatalError(message) {
+function fatalError(message, codesLink = false) {
   $(".view").hide();
 
   let $fatalView = $("#fatal-error-view");
   $fatalView.find("#fatal-error-msg").text(message);
+
+  if (codesLink) {
+    $fatalView
+      .find("#fatal-error-msg")
+      .append(
+        `<br>You can still access 2FA codes <a href='${baseUrl}codes'>here</a>.`
+      );
+  }
+
   $fatalView.show();
 }
 
