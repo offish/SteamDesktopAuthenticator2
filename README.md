@@ -53,6 +53,6 @@ You need to allow Tampermonkey to make requests.
 > You can also use https://doctormckay.github.io/steam-twofactor-server/ to confirm your trades. Set the 2FA Server Base URL to `http://127.0.0.1:5000/sda2/`
 
 ## Acknowledgements
-- [Alex Corn](https://github.com/DoctorMcKay) ([steam-twofactor-server](https://github.com/DoctorMcKay/steam-twofactor-server)) - This repository is basically just a fork of `steam-twofactor-server` with the server ported to Python and minor changes to McKay's user script.
+- [Alex Corn](https://github.com/DoctorMcKay) ([steam-twofactor-server](https://github.com/DoctorMcKay/steam-twofactor-server)) - This repository is a modified version of `steam-twofactor-server` with some additional features.
 - [Michał Bukowski](https://github.com/bukson) ([steampy](https://github.com/bukson/steampy)) - Steam Guard functionality was taken from the implementation in `steampy`.
 - [Samuel Breznjak](https://github.com/ekmas) ([cs16.css](https://github.com/ekmas/cs16.css)) - Styling used for the UI.
