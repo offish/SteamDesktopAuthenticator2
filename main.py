@@ -1,9 +1,9 @@
 import time
 
 from flask import Flask, Response, abort, jsonify, redirect, render_template, request
+from steampie import DecryptionError, generate_confirmation_key, generate_one_time_code
 
 from sda2.account_manager import AccountManager
-from sda2.guard import generate_confirmation_key, generate_one_time_code
 
 BASE_PATH = "/sda2/"
 app = Flask(__name__)
@@ -25,12 +25,14 @@ def home() -> Response:
 
 @app.route("/decrypt", methods=["GET", "POST"])
 def decrypt() -> Response:
+    code = None
+
     if request.method == "POST":
-        password = request.form.get("password", "").strip()
+        code = request.form.get("password", "").strip()
 
         try:
-            account_manager.decrypt_accounts(password)
-        except ValueError:
+            account_manager.setup_accounts(code)
+        except DecryptionError:
             pass
 
     if account_manager.needs_password():
@@ -39,7 +41,7 @@ def decrypt() -> Response:
             "index.html", password_required=True, check_user_script_installed=False
         )
 
-    account_manager.set_remaining_accounts()
+    account_manager.setup_accounts(code=None)
     return redirect(BASE_PATH)
 
 
